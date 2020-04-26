@@ -41,7 +41,7 @@ node_templates:
       resource_config:
         blueprint:
           id: vwan-infra
-          blueprint_archive: .....
+          blueprint_archive: https://github.com/shayn1234/Azure-vWAN/archive/master.zip
           main_file_name: vwan-infra.yaml
           external_resource: false
         deployment:
