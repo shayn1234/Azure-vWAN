@@ -1,0 +1,68 @@
+tosca_definitions_version: cloudify_dsl_1_3
+
+imports:
+  - http://cloudify.co/spec/cloudify/5.0.0/types.yaml
+  - plugin:cloudify-azure-plugin
+
+inputs:
+  azure_config:
+    description: >
+      Parameters for connecting to Azure.
+    type: cloudify.datatypes.azure.Config
+    default:
+      subscription_id: { get_secret: azure_subscription_id }
+      tenant_id: { get_secret: azure_tenant_id }
+      client_id: { get_secret: azure_client_id }
+      client_secret: { get_secret: azure_client_secret }
+
+  azure_location:
+    description: >
+      Azure Location code for creating resources.
+    type: string
+    default: westus
+
+  resource_name_prefix:
+    description: >
+      Prefix to prepend to resource names.
+    type: string
+    default: vwan
+
+  resource_group_name:
+    description: >
+      Name of resource group to use for the deployment.
+    type: string
+    default: shay
+
+  wan_name:
+    description: >
+      Name of vwan blueprint to deploy.
+    type: string
+    default: SampleVirtualWan
+
+  hub_name:
+    description: >
+      Name of vwan blueprint to deploy.
+    type: string
+    default: SampleVirtualHub
+
+
+node_templates:
+  deployment:
+    type: cloudify.azure.Deployment
+    properties:
+      azure_config: { get_input: azure_config }
+      location: { get_input: azure_location }
+      name: { get_input: resource_group_name }
+      params:
+        location: { get_input: azure_location }
+        wanname: { get_input: wan_name }
+        hubname: { get_input: hub_name }
+      template_file: 'templates/vwan-infra.json'
+
+capabilities:
+  wanname:
+    description: WAN ID.
+    value: { get_input: wan_name }
+  hubname:
+    description: Hub name.
+    value: { get_input: hub_name }
