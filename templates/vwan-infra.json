@@ -33,7 +33,7 @@
             "metadata": {
                 "description": "Name of the Virtual Hub. A virtual hub is created inside a virtual wan."
             }
-        },
+        }
     },
     "resources": [
         {
