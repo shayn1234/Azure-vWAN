@@ -33,6 +33,24 @@
             "metadata": {
                 "description": "Name of the Virtual Hub. A virtual hub is created inside a virtual wan."
             }
+        },
+        "addressPrefix": {
+            "type": "string",
+            "defaultValue": "192.168.0.0/24",
+            "metadata": {
+                "description": "The hub address prefix. This address prefix will be used as the address prefix for the hub vnet"
+            }
+        },
+        "enableBgp": {
+            "type": "string",
+            "defaultValue": "false",
+            "metadata": {
+                "description": "This needs to be set to true if BGP needs to enabled on the vpn connection."
+            },
+            "allowedValues": [
+                "true",
+                "false"
+            ]
         }
     },
     "resources": [
