@@ -55,8 +55,8 @@ node_templates:
       name: { get_input: resource_group_name }
       params:
         location: { get_input: azure_location }
-        wanname: { get_capability: [ vwan-infra,wan_name ] }
-        hubname: { get_capability: [ vwan-infra,hub_name ] }
+        wanname: { get_capability: [ vwan-infra,wanname ] }
+        hubname: { get_capability: [ vwan-infra,hubname ] }
       template_file: 'templates/vwan-sites.json'
     relationships:
       - type: cloudify.relationships.depends_on
