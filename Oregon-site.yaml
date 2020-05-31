@@ -1,0 +1,70 @@
+tosca_definitions_version: cloudify_dsl_1_3
+
+imports:
+  - http://cloudify.co/spec/cloudify/5.0.0/types.yaml
+  - plugin:cloudify-azure-plugin
+
+inputs:
+  azure_config:
+    description: >
+      Parameters for connecting to Azure.
+    type: cloudify.datatypes.azure.Config
+    default:
+      subscription_id: { get_secret: azure_subscription_id }
+      tenant_id: { get_secret: azure_tenant_id }
+      client_id: { get_secret: azure_client_id }
+      client_secret: { get_secret: azure_client_secret }
+
+  azure_location:
+    description: >
+      Azure Location code for creating resources.
+    type: string
+    default: westus
+
+  resource_name_prefix:
+    description: >
+      Prefix to prepend to resource names.
+    type: string
+    default: vwan
+
+  resource_group_name:
+    description: >
+      Name of resource group to use for the deployment.
+    type: string
+    default: shay
+
+
+node_templates:
+  vhub:
+    type: cloudify.nodes.SharedResource
+    properties:
+      resource_config:
+        deployment:
+          id: vwan-hub
+
+  oregon-site:
+    type: cloudify.azure.Deployment
+    properties:
+      azure_config: { get_input: azure_config }
+      location: { get_input: azure_location }
+      name: { get_input: resource_group_name }
+      params:
+        location: { get_input: azure_location }
+        wanname: { get_capability: [ vwan-hub,wanname ] }
+        hubname: { get_capability: [ vwan-hub,hubname ] }
+        vpnsitename: { get_capability: [ vwan-hub,site-name ] }
+        connectionName: { get_capability: [ vwan-hub,connection-name ] }
+        vpnsitePublicIPAddress: { get_capability: [ vwan-hub,site-ip ] }
+        vpnsiteBgpAsn: { get_capability: [ vwan-hub,site-bgpasn ] }
+        vpnsiteBgpPeeringAddress: { get_capability: [ vwan-hub,site-peeringaddr ] }
+        addressPrefix: { get_capability: [ vwan-hub,site-addrprefix ] }
+      template_file: 'templates/vwan-sites.json'
+    relationships:
+      - type: cloudify.relationships.depends_on_shared_resource
+        target: vhub
+        target_interfaces:
+          cloudify.interfaces.relationship_lifecycle:
+            establish:
+              inputs:
+                workflow_id: 'execute_operation',
+                parameters: { "node_ids": ["vwan"], "operation": "site_config_interface.site_init", "operation_kwargs": { "site": "oregon" }, "allow_kwargs_override": True }

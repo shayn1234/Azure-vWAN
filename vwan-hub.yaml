@@ -1,0 +1,70 @@
+tosca_definitions_version: cloudify_dsl_1_3
+
+imports:
+  - http://cloudify.co/spec/cloudify/5.0.0/types.yaml
+  - plugin:cloudify-azure-plugin
+
+inputs:
+  azure_config:
+    description: >
+      Parameters for connecting to Azure.
+    type: cloudify.datatypes.azure.Config
+    default:
+      subscription_id: { get_secret: azure_subscription_id }
+      tenant_id: { get_secret: azure_tenant_id }
+      client_id: { get_secret: azure_client_id }
+      client_secret: { get_secret: azure_client_secret }
+
+node_types:
+  cloudify.nodes.vwan:
+    derived_from: cloudify.nodes.SoftwareComponent
+    interfaces:
+      site_config_interface:
+        site_init: {}
+
+
+
+node_templates:
+  vwan_root:
+    type: cloudify.nodes.Root
+  vwan:
+    type: cloudify.nodes.Component
+    properties:
+      resource_config:
+        blueprint:
+          id: vwan-infra
+          blueprint_archive: https://github.com/shayn1234/Azure-vWAN/archive/master.zip
+          main_file_name: vwan-infra.yaml
+          external_resource: false
+        deployment:
+          id: vwan-infra
+    interfaces:
+      site_config_interface:
+        site_init:
+          implementation: scripts/site-init.py
+          executor: central_deployment_agent
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: vwan_root
+
+
+
+capabilities:
+  wanname:
+    description: WAN ID.
+    value: { get_attribute: [vwan, wan_name] }
+  hubname:
+    description: Hub name.
+    value: { get_attribute: [vwan, hub_name] }
+  site-ip:
+    value: { get_attribute: [vwan, site_ip] }
+  site-name:
+    value: { get_capability: [ vwan,site_name ] }
+  connection-name:
+    value: { get_capability: [ vwan,connection_name ] }
+  site-bgpasn:
+    value: { get_capability: [ vwan,site_bgpasn ] }
+  site-peeringaddr:
+    value: { get_capability: [ vwan,site_peeringaddr ] }
+  site-addrprefix:
+    value: { get_capability: [ vwan,site_addrprefix ] }

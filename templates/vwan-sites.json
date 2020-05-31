@@ -108,9 +108,6 @@
             "name": "[parameters('vpnsitename')]",
             "apiVersion": "2019-09-01",
             "location": "[parameters('location')]",
-            "dependsOn": [
-                "[concat('Microsoft.Network/virtualWans/', parameters('wanname'))]"
-            ],
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": "[parameters('vpnsiteAddressspaceList')]"
@@ -135,7 +132,6 @@
             "apiVersion": "2019-09-01",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[concat('Microsoft.Network/virtualHubs/', parameters('hubname'))]",
                 "[concat('Microsoft.Network/vpnSites/', parameters('vpnsitename'))]"
             ],
             "properties": {
@@ -155,7 +151,7 @@
                     "id": "[resourceId('Microsoft.Network/virtualHubs',parameters('hubname'))]"
                 },
                 "bgpSettings": {
-                    "asn": 65515
+                    "asn": "[parameters('vpnsiteBgpAsn')]"
                 }
             }
         }
