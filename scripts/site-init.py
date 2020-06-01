@@ -17,3 +17,5 @@ ctx.instance.runtime_properties['connection_name'] = sites[inputs['site']]['conn
 ctx.instance.runtime_properties['site_bgpasn'] = sites[inputs['site']]['sitebgpasn']
 ctx.instance.runtime_properties['site_peeringaddr'] = sites[inputs['site']]['sitepeeringaddr']
 ctx.instance.runtime_properties['site_addrprefix'] = sites[inputs['site']]['siteaddressprefix']
+
+
