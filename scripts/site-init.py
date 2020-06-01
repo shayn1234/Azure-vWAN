@@ -2,8 +2,8 @@ from cloudify import ctx
 from cloudify.state import ctx_parameters as inputs
 
 sites = {
-  "washington": {"wanname": "SampleVirtualWan", "hubname": "SampleVirtualHub", "ip": "1.2.3.4", "sitename" : "washington", "connectionname" : "washington-conn", "sitebgpasn" : "65010", "sitepeeringaddr" : "1.1.1.1", "siteaddressprefix" : "192.168.1.0/24"},
-  "oregon": {"wanname": "SampleVirtualWan", "hubname": "SampleVirtualHub", "ip": "1.2.3.5", "sitename" : "oregon", "connectionname" : "oregon-conn", "sitebgpasn" : "65011", "sitepeeringaddr" : "1.1.1.2", "siteaddressprefix" : "192.168.2.0/24"}
+  "washington": {"wanname": "SampleVirtualWan", "hubname": "SampleVirtualHub", "ip": "1.2.3.4", "sitename" : "washington", "connectionname" : "washington-conn", "sitebgpasn" : 65010, "sitepeeringaddr" : "1.1.1.1", "siteaddressprefix" : "192.168.1.0/24"},
+  "oregon": {"wanname": "SampleVirtualWan", "hubname": "SampleVirtualHub", "ip": "1.2.3.5", "sitename" : "oregon", "connectionname" : "oregon-conn", "sitebgpasn" : 65011, "sitepeeringaddr" : "1.1.1.2", "siteaddressprefix" : "192.168.2.0/24"}
 }
 
 ctx.logger.info('The site-config operation input is : {0}'

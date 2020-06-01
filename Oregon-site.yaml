@@ -77,4 +77,4 @@ node_templates:
       template_file: 'templates/vwan-sites.json'
     relationships:
       - type: cloudify.relationships.depends_on
-        target: oregon-site-init 
+        target: oregon-site-init
