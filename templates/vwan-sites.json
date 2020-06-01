@@ -151,7 +151,7 @@
                     "id": "[resourceId('Microsoft.Network/virtualHubs',parameters('hubname'))]"
                 },
                 "bgpSettings": {
-                    "asn": "[parameters('vpnsiteBgpAsn')]"
+                    "asn": 65515
                 }
             }
         }
