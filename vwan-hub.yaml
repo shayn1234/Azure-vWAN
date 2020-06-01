@@ -22,7 +22,9 @@ node_types:
       site_config_interface:
         site_init: {}
 
-
+workflows:
+    unlink_op:
+      mapping: scripts/unlinkop.sh
 
 node_templates:
   vwan_root:
@@ -49,6 +51,7 @@ node_templates:
 
 
 
+
 capabilities:
   wanname:
     description: WAN ID.
@@ -59,12 +62,12 @@ capabilities:
   site-ip:
     value: { get_attribute: [vwan, site_ip] }
   site-name:
-    value: { get_capability: [ vwan,site_name ] }
+    value: { get_attribute: [ vwan,site_name ] }
   connection-name:
-    value: { get_capability: [ vwan,connection_name ] }
+    value: { get_attribute: [ vwan,connection_name ] }
   site-bgpasn:
-    value: { get_capability: [ vwan,site_bgpasn ] }
+    value: { get_attribute: [ vwan,site_bgpasn ] }
   site-peeringaddr:
-    value: { get_capability: [ vwan,site_peeringaddr ] }
+    value: { get_attribute: [ vwan,site_peeringaddr ] }
   site-addrprefix:
-    value: { get_capability: [ vwan,site_addrprefix ] }
+    value: { get_attribute: [ vwan,site_addrprefix ] }

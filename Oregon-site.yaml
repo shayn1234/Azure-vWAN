@@ -66,5 +66,8 @@ node_templates:
           cloudify.interfaces.relationship_lifecycle:
             establish:
               inputs:
-                workflow_id: 'execute_operation',
+                workflow_id: execute_operation
                 parameters: { "node_ids": ["vwan"], "operation": "site_config_interface.site_init", "operation_kwargs": { "site": "oregon" }, "allow_kwargs_override": True }
+            unlink:
+              inputs:
+                workflow_id: unlink_op
