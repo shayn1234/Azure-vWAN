@@ -42,7 +42,23 @@ node_templates:
         deployment:
           id: vwan-hub
 
-  washington-site:
+
+  washington-site-init:
+    type: cloudify.nodes.Root
+    relationships:
+      - type: cloudify.relationships.depends_on_shared_resource
+        target: vhub
+        target_interfaces:
+          cloudify.interfaces.relationship_lifecycle:
+            establish:
+              inputs:
+                workflow_id: execute_operation
+                parameters: { "node_ids": ["vwan"], "operation": "site_config_interface.site_init", "operation_kwargs": { "site": "washington" }, "allow_kwargs_override": True }
+            unlink:
+              inputs:
+                workflow_id: unlink_op
+
+  washington-site-provision:
     type: cloudify.azure.Deployment
     properties:
       azure_config: { get_input: azure_config }
@@ -60,14 +76,5 @@ node_templates:
         addressPrefix: { get_capability: [ vwan-hub,site-addrprefix ] }
       template_file: 'templates/vwan-sites.json'
     relationships:
-      - type: cloudify.relationships.depends_on_shared_resource
-        target: vhub
-        target_interfaces:
-          cloudify.interfaces.relationship_lifecycle:
-            establish:
-              inputs:
-                workflow_id: execute_operation
-                parameters: { "node_ids": ["vwan"], "operation": "site_config_interface.site_init", "operation_kwargs": { "site": "washington" }, "allow_kwargs_override": True }
-            unlink:
-              inputs:
-                workflow_id: unlink_op
+      - type: cloudify.relationships.depends_on
+        target: washington-site-init
