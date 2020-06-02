@@ -71,3 +71,5 @@ capabilities:
     value: { get_attribute: [ vwan,site_peeringaddr ] }
   site-addrprefix:
     value: { get_attribute: [ vwan,site_addrprefix ] }
+  connections-list:
+    value: {get_attribute: [ vwan, connections] }
