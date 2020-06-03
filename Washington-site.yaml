@@ -92,4 +92,4 @@ node_templates:
       template_file: { get_attribute: [ vpngateway-connections, ARMfile ] }
     relationships:
       - type: cloudify.relationships.depends_on
-        target: vpngateway-connectios
+        target: vpngateway-connections
