@@ -69,7 +69,7 @@ node_templates:
             connections-list: {get_capability: [vwan-hub, connections-list ]}
             template_file: 'templates/vwan-sites23.json'
     relationships:
-      - type: cloudify.relationships_connected_to
+      - type: cloudify.relationships.connected_to
         target: washington-site-init
 
 
