@@ -145,8 +145,8 @@
                                 "id": "[resourceId('Microsoft.Network/vpnSites', {{site}})]"
                             }
                         }
-                    }
-                    {{ ", " if not loop.last }}
+                    }{{ "," if not loop.last }}
+
                     {% endfor %}
                 ],
                 "virtualHub": {
