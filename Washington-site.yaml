@@ -58,6 +58,21 @@ node_templates:
               inputs:
                 workflow_id: unlink_op
 
+  vpngateway-connections:
+    type: cloudify.nodes.Root
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        configure:
+          implementation: scripts/configure_connections.py
+          executor: central_deployment_agent
+          inputs:
+            connections-list: {get_capability: [vwan-hub, connections-list ]}
+            template_file: 'templates/vwan-sites23.json'
+    relationships:
+      type: cloudify.relationships_connected_to
+      target: washington-site-init
+
+
   washington-site-provision:
     type: cloudify.azure.Deployment
     properties:
@@ -74,7 +89,7 @@ node_templates:
         vpnsiteBgpAsn: { get_capability: [ vwan-hub,site-bgpasn ] }
         vpnsiteBgpPeeringAddress: { get_capability: [ vwan-hub,site-peeringaddr ] }
         addressPrefix: { get_capability: [ vwan-hub,site-addrprefix ] }
-      template_file: 'templates/vwan-sites.json'
+      template_file: { get_attribute: [ vpngateway-connections, ARMfile ] }
     relationships:
       - type: cloudify.relationships.depends_on
-        target: washington-site-init
+        target: vpngateway-connectios
