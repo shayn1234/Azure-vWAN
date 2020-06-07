@@ -19,6 +19,8 @@ ctx.instance.runtime_properties['site_peeringaddr'] = sites[inputs['site']]['sit
 ctx.instance.runtime_properties['site_addrprefix'] = sites[inputs['site']]['siteaddressprefix']
 if not ctx.instance.runtime_properties.get('connections'):
     ctx.instance.runtime_properties['connections'] = []
-ctx.instance.runtime_properties['connections']= ctx.instance.runtime_properties['connections'] + [(sites[inputs['site']]['sitename'])]
+new_site = sites[inputs['site']]['sitename']
+if not new_site in ctx.instance.runtime_properties['connections']:
+    ctx.instance.runtime_properties['connections']= ctx.instance.runtime_properties['connections'] + [new_site]
 
 
