@@ -11,7 +11,7 @@ def main():
     with tempfile.NamedTemporaryFile(delete=False) as temp_config:
         temp_config.write(template.render(connections=inputs['connections-list']))
     ctx.logger.info("Rendered file name is' {0}\n".format(temp_config.name))
-    ctx.instance.runtime_properties['ARMfile'] = temp_config.name + "../../.."
+    ctx.instance.runtime_properties['ARMfile'] = temp_config.name
 
 if __name__ == "__main__":
     main()
