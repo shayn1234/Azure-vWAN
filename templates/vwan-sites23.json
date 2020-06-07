@@ -142,7 +142,7 @@
                             "connectionBandwidth": 10,
                             "enableBgp": "[parameters('enableBgp')]",
                             "remoteVpnSite": {
-                                "id": "[resourceId('Microsoft.Network/vpnSites/', {{site}})]"
+                                "id": "[resourceId('Microsoft.Network/vpnSites/', '{{site}}')]"
                             }
                         }
                     }{{ "," if not loop.last }}
